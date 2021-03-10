@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      .container {
+        margin: 50px auto;
+        width: 400px;
+        overflow-x: hidden;
+      }
+      .item {
+        width: 400px;
+        display: none;
+      }
+
+      /* .circle-in{
+            animation: clip-circle 0.8s;
+        } */
+      /* 圆形效果 */
+      @keyframes clip-circle {
+        0% {
+          clip-path: circle(0 at 50% 50%);
+        }
+        100% {
+          clip-path: circle(300px at 50% 50%);
+        }
+      }
+      /* 三角形 */
+      @keyframes clip-triangle {
+        0% {
+          clip-path: polygon(50% 50%, 49% 51%, 51% 51%);
+        }
+        100% {
+          clip-path: polygon(50% -100%, -100% 150%, 200% 150%);
+        }
+      }
+      /* 带圆角的矩形效果 */
+      @keyframes clip-rect {
+        0% {
+          clip-path: inset(50% round 10% 50%);
+        }
+        100% {
+          clip-path: inset(0% round 0);
+        }
+      }
+      /* 菱形效果 */
+      @keyframes clip-polygon {
+        0% {
+          clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+        }
+        100% {
+          clip-path: polygon(50% -50%, 150% 50%, 50% 150%, -50% 50%);
+        }
+      }
+      /* 十字星到矩形效果 */
+      @keyframes clip-polygon-1 {
+        0% {
+          clip-path: polygon(
+            50% 20%,
+            50% 50%,
+            20% 50%,
+            50% 50%,
+            50% 80%,
+            50% 50%,
+            80% 50%,
+            50% 50%
+          );
+        }
+        100% {
+          clip-path: polygon(
+            50% 0%,
+            0% 0%,
+            0% 50%,
+            0% 100%,
+            50% 100%,
+            100% 100%,
+            100% 50%,
+            100% 0%
+          );
+        }
+      }
+      /* 扇形展开效果 */
+      @keyframes clip-sector {
+        0% {
+          clip-path: polygon(50% 100%, 50% 0%, 0% 0%, 100% 0%, 50% 0%);
+        }
+        50% {
+          clip-path: polygon(50% 100%, 0% 0%, 0% 0%, 100% 0%, 100% 0%);
+        }
+        100% {
+          clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%);
+        }
+      }
+
+      /* 五角星过场动画 */
+      /* 很好理解，一开始通过设置mask-size属性让用来遮罩图像的尺寸是0，因此图像完全不可见；动画结束的时候，
+      设置的遮罩尺寸足够大，图像完全显示，扩展动画效果即实现。 */
+      .star-in{
+          -webkit-mask: url(./imgs/svg/star.svg) no-repeat center;
+          -webkit-mask-size: 600% 600%;
+          animation: clip-sharp .8s linear;
+      }
+      .heart-in{
+          -webkit-mask: url(./imgs/svg/heart.svg) no-repeat center;
+          -webkit-mask-size: 600% 600%;
+          animation: clip-sharp .8s linear;
+      }
+
+      @keyframes clip-sharp {
+        from {
+          -webkit-mask-size: 0 0;
+        }
+        to {
+          -webkit-mask-size: 600% 600%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- css-transfer-animation 
+    
+    https://www.zhangxinxu.com/wordpress/2019/05/css-transfer-animation/
+    -->
+
+    <div class="container">
+      <div id="wrap"></div>
+    </div>
+
+    <script>
+      window.onload = function () {
+        const anmis = [
+          "clip-circle",
+          "clip-triangle",
+          "clip-rect",
+          "clip-polygon",
+          "clip-polygon-1",
+          "clip-sector",
+          "clip-sharp"
+        ];
+        const sharps = [
+            "star-in",
+            "heart-in"
+        ];
+
+        const wrap = document.querySelector("#wrap");
+        let w = 0;
+        let html = "";
+
+        for (let i = 0; i < 15; i++) {
+          html += `<img src="./imgs/${i + 1}.jpg" alt="" class="item">`;
+
+          w += 400;
+        }
+
+        wrap.innerHTML = html;
+        wrap.style.width = `${w}px`;
+
+        const oImages = document.querySelectorAll(".item");
+
+        let i = -1;
+
+        const run = () => {
+          const pre = oImages[i];
+          if (pre) {
+            pre.style = {};
+            pre.className = "item";
+          }
+
+          ++i;
+
+          if (i >= oImages.length) {
+            i = 0;
+          }
+          const current = oImages[i];
+          if (current) {
+            let randomani = anmis[Math.floor(Math.random() * anmis.length)];
+
+            if(randomani === "clip-sharp"){
+                const sharpani = sharps[Math.floor(Math.random() * sharps.length)];
+                current.className = `item ${sharpani}`;
+            }else{
+                current.style.animation = `${randomani} 0.8s`;
+                current.className = `item`;
+            }
+
+            current.style.display = "block";
+          }
+        };
+
+        run();
+        setInterval(run, 2000);
+      };
+    </script>
+  </body>
+</html>

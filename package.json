@@ -1,0 +1,19 @@
+{
+  "name": "magic-css",
+  "version": "1.0.0",
+  "description": "神奇的css",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ichenzhifan/magic-css.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ichenzhifan/magic-css/issues"
+  },
+  "homepage": "https://github.com/ichenzhifan/magic-css#readme"
+}

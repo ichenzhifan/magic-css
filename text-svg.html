@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stick&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Stick", sans-serif;
+        margin: 0;
+        padding: 0;
+        font-size: 30px;
+        overflow-x: hidden;
+      }
+
+      /* 线条文字动画 */
+      /*
+        在 SVG 与 CSS 的搭配中，有一类非常适合拿来做动画的属性，也就是 stroke-* 相关的几个属性，利用它们，我们只需要掌握简单的 SVG 语法，就可以快速制作相关的线条动画。
+        我们利用 SVG 中几个和边框、线条相关的属性，来实现文字的线条动画，下面罗列一下，其实大部分和 CSS 对比一下非常好理解，只是换了个名字：
+
+        stroke-width：类比 css 中的 border-width，给 svg 图形设定边框宽度；
+        stroke：类比 css 中的 border-color，给 svg 图形设定边框颜色；
+        stroke-linejoin | stroke-linecap：设定线段连接处的样式；
+        stroke-dasharray：值是一组数组，没数量上限，每个数字交替表示划线与间隔的宽度；
+        stroke-dashoffset：则是虚线的偏移量
+
+         动画的核心就是，利用动态变化文字的 stroke-dasharray 和 stroke-dashoffset 
+         形成视觉上的线条变换，动画的最后再给文字上色
+       */
+      .s1{
+        margin-top: 50px;
+      }
+      .s1 text {
+        letter-spacing: 10px;
+        font-size: 90px;
+        animation: stroke 5s infinite alternate;
+      }
+      @keyframes stroke {
+        0% {
+          fill: rgba(72, 138, 20, 0);
+          stroke: rgba(54, 95, 160, 1);
+          stroke-dashoffset: 25%;
+          stroke-dasharray: 0 50%;
+          stroke-width: 1;
+        }
+        70% {
+          fill: rgba(72, 138, 20, 0);
+          stroke: rgba(54, 95, 160, 1);
+          stroke-width: 3;
+        }
+        90%,
+        100% {
+          fill: rgba(72, 138, 204, 1);
+          stroke: rgba(54, 95, 160, 0);
+          stroke-dashoffset: -25%;
+          stroke-dasharray: 50% 0;
+          stroke-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 线条文字动画 -->
+    <svg viewBox="0 0 400 200" class="s1">
+      <text x="0" y="100">山西证券</text>
+    </svg>
+  </body>
+</html>

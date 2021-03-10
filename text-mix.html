@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stick&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Stick", sans-serif;
+        margin: 0;
+        padding: 0;
+        font-size: 30px;
+        overflow-x: hidden;
+      }
+      div {
+        font-size: 100px;
+        padding: 50px;
+        margin-top: 20px;
+        text-align: center;
+        background-color: #000;
+      }
+
+      /* 给文字添加边框，生成镂空文字 */
+      .s1 {
+        -webkit-text-stroke: 3px #373750;
+      }
+      .s1-1 {
+        text-shadow: 0 0 5px #fff;
+      }
+
+      /* 生成渐变色镂空文字 */
+      .s2 {
+        position: relative;
+        -webkit-text-stroke: 3px #9a9acc;
+      }
+      .s2::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-image: linear-gradient(45deg, #ff269b, #2ab5f5, #ffbf00);
+        /* 正片叠底（multiply），将两个颜色的像素值相乘，然后除以255得到的结果就是最终色的像素值。
+        通常执行正片叠底模式后的颜色比原来两种颜色都深。任何颜色和黑色正片叠底得到的仍然是黑色，
+        任何颜色和白色执行正片叠底则保持原来的颜色不变，而与其他颜色执行此模式会产生暗室中以此种颜色照明的效果
+        */
+        mix-blend-mode: multiply;
+      }
+
+      /* 利用混合模式，生成光影效果文字 */
+      .s3 {
+        position: relative;
+        -webkit-text-stroke: 3px #7272a5;
+      }
+      .s3::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-image: linear-gradient(45deg, #ff269b, #2ab5f5, #ffbf00);
+        mix-blend-mode: multiply;
+      }
+      .s3::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: radial-gradient(circle, #fff, #000 50%);
+        background-size: 25% 25%;
+        mix-blend-mode: color-dodge;
+        animation: mix 8s linear infinite;
+      }
+      @keyframes mix {
+        to {
+          transform: translate(50%, 0%);
+        }
+      }
+
+      /* 实现文字与底色反色的效果 */
+      .s4 {
+        background: repeating-radial-gradient(
+          circle at 200% 200%,
+          #000 0,
+          rgb(61, 49, 116) 150px,
+          #fff 150px,
+          #fff 300px
+        );
+      }
+      .s4::before {
+        content: "Magic Text";
+        color: #fff;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        mix-blend-mode: difference;
+      }
+
+      /* 模糊滤镜叠加对比度滤镜产生的融合效果 */
+      /* 单独将两个滤镜拿出来，它们的作用分别是：
+            - filter: blur()： 给图像设置高斯模糊效果。
+            - filter: contrast()： 调整图像的对比度。
+        但是，当他们“合体”的时候，产生了奇妙的融合现象 
+      */
+      .s5 {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        filter: contrast(20);
+        background: #fff;
+      }
+      .s5::before {
+        content: "";
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #333;
+        top: 40px;
+        left: 40px;
+        filter: blur(6px);
+        box-sizing: border-box;
+        animation: ball-move 4s ease-out infinite;
+      }
+      .s5::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #3f51b5;
+        top: 60px;
+        right: 40px;
+        z-index: 2;
+        filter: blur(6px);
+        animation: ball-move2 4s ease-out infinite;
+      }
+      @keyframes ball-move {
+        50% {
+          left: 140px;
+        }
+      }
+
+      @keyframes ball-move2 {
+        50% {
+          right: 140px;
+        }
+      }
+
+      /* 设计一些文字融合的效果 */
+      .s6 {
+        position: relative;
+        padding: 20px;
+        filter: contrast(20);
+        height: 200px;
+      }
+      .s6 h1 {
+        color: #fff;
+        font-size: 60px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        letter-spacing: -2.2rem;
+        animation: ls 3s infinite alternate ease-in-out;
+      }
+      @keyframes ls {
+        0% {
+          letter-spacing: -2.2rem;
+          filter: blur(0.3rem);
+        }
+        50% {
+          filter: blur(0.5rem);
+        }
+        100% {
+          letter-spacing: 0.5rem;
+          filter: blur(0);
+          color: #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 给文字添加边框，生成镂空文字 -->
+    <p>给文字添加边框，生成镂空文字</p>
+    <div class="s1">Magic Text</div>
+    <div class="s1-1">Magic Text</div>
+
+    <!--  -->
+    <p>生成渐变色镂空文字</p>
+    <div class="s2">Magic Text</div>
+
+    <!-- 利用混合模式，生成光影效果文字 -->
+    <p>利用混合模式，生成光影效果文字</p>
+    <div class="s3">Magic Text</div>
+
+    <!-- 实现文字与底色反色的效果 -->
+    <p>实现文字与底色反色的效果</p>
+    <div class="s4"></div>
+
+    <!-- 模糊滤镜叠加对比度滤镜产生的融合效果 -->
+    <p>模糊滤镜叠加对比度滤镜产生的融合效果</p>
+    <div class="s5"></div>
+
+    <!-- 设计一些文字融合的效果 -->
+    <div class="s6">
+      <h1>山西证券</h1>
+    </div>
+
+  </body>
+</html>
